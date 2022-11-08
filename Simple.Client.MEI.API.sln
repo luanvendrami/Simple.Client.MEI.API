@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.MEI.API", "Simple.MEI.API\Simple.MEI.API.csproj", "{93A594D3-E91E-4472-98EA-3488E5F9FA38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Client.MEI.API", "Simple.MEI.API\Simple.Client.MEI.API.csproj", "{93A594D3-E91E-4472-98EA-3488E5F9FA38}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Application", "0 - Application", "{6A5DB8A6-619D-4232-9D87-2F0D3402E475}"
 EndProject
@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3DD4CFCE-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrossCuting", "CrossCuting", "{0B5833F1-DE0B-4F1E-B918-607C4903C6B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{AF7B0E47-3F2B-491A-ADF2-95AADD3996C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{AF7B0E47-3F2B-491A-ADF2-95AADD3996C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCuting", "CrossCuting\CrossCuting.csproj", "{55A6610B-06FC-4EBC-B9B5-18C4DF3657B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCuting", "CrossCuting\CrossCuting.csproj", "{55A6610B-06FC-4EBC-B9B5-18C4DF3657B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{B3709B11-5EBF-445C-BC3F-D34DCD450BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{B3709B11-5EBF-445C-BC3F-D34DCD450BAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{3E052309-CBFA-4FDF-A8DB-733D7B3B5BB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{3E052309-CBFA-4FDF-A8DB-733D7B3B5BB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
