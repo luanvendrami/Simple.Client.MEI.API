@@ -12,7 +12,7 @@ namespace Data.Context
 
         public ExodoDbSession()
         {
-            Connection = new SqlConnection(_configuration.GetConnectionString("teste"));
+            Connection = new SqlConnection(_configuration.GetConnectionString("ExodoDev"));
             Connection.Open();
         }
 
