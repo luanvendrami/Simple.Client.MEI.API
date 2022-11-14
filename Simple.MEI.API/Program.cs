@@ -1,8 +1,10 @@
+using CrossCuting;
 using Domain.Helpers.HandlingError;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.InjectionDependencysExtensions();
 
 builder.Services.AddControllers();
 builder.Services.AddCors();
