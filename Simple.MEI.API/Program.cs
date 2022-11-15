@@ -1,10 +1,19 @@
-using CrossCuting;
+﻿using CrossCuting;
 using Domain.Helpers.HandlingError;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.InjectionDependencysExtensions();
+
+//Adicionando FluentValidation
+builder.Services
+    .AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true)
+    .AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 builder.Services.AddCors();
