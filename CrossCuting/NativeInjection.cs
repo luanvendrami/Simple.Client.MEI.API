@@ -3,12 +3,9 @@ using Data.Repository;
 using Data.UnitOfWork;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Service;
 
 namespace CrossCuting
 {
@@ -21,7 +18,10 @@ namespace CrossCuting
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             //Repository
-            services.AddTransient<IRepositoryTest, RepositoryTest>();
+            services.AddTransient<IRepositoryClient, RepositoryClient>();
+
+            //Services
+            services.AddTransient<IClientService, ClientService>();
 
             return services;
         }
