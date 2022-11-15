@@ -1,29 +1,41 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Helpers.HandlingError;
+using Domain.Interfaces.Services;
+using Domain.Interfaces;
 
 namespace Simple.Client.MEI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class ClientController : BaseController
     {
-        [HttpGet]
-        public IActionResult GetTest()
+        private readonly IClientService _clientService;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ClientController(IClientService clientService, IUnitOfWork unitOfWork)
+        {
+            _clientService = clientService;
+            _unitOfWork = unitOfWork;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create()
         {
             try
             {
-                string result = null;
-                if (result == null)
+                _unitOfWork.BeginTransaction();
+                var result = await _clientService.Create();
+                if (!result.Item2)
                 {
-                    throw new AppException("Email or password is incorrect");
+                    _unitOfWork.Rollback();
+                    return ResultBadRequest(result.Item1);
                 }
-                return Ok();
+                _unitOfWork.Commit();
+                return ResultOk(result.Item1);
             }
             catch 
             {
-                throw new AppException("Email or password is incorrect");
+                throw new AppException("Error to create client.");
             }
         }
     }
