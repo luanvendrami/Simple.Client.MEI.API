@@ -1,7 +1,9 @@
-﻿namespace Domain.Interfaces.Services
+﻿using Domain.Dto;
+
+namespace Domain.Interfaces.Services
 {
     public interface IClientService
     {
-        Task<Tuple<string, bool>> Create();
+        Task<Tuple<string, bool>> Create(ClientInputDto clientInputDto);
     }
 }

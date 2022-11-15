@@ -2,6 +2,7 @@
 using Domain.Helpers.HandlingError;
 using Domain.Interfaces.Services;
 using Domain.Interfaces;
+using Domain.Dto;
 
 namespace Simple.Client.MEI.API.Controllers
 {
@@ -19,12 +20,12 @@ namespace Simple.Client.MEI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(ClientInputDto clientInputDto)
         {
             try
             {
                 _unitOfWork.BeginTransaction();
-                var result = await _clientService.Create();
+                var result = await _clientService.Create(clientInputDto);
                 if (!result.Item2)
                 {
                     _unitOfWork.Rollback();

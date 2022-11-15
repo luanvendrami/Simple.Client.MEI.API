@@ -4,15 +4,16 @@ using System.Data.SqlClient;
 
 namespace Data.Context
 {
-    public class ExodoDbSession
+    public class ExodoDbSession : IDisposable
     {
         public IDbConnection Connection { get; }
         public IDbTransaction Transaction { get; set; }
         public IConfiguration _configuration;
 
-        public ExodoDbSession()
+        public ExodoDbSession(IConfiguration configuration)
         {
-            Connection = new SqlConnection(_configuration.GetConnectionString("ExodoDev"));
+            _configuration = configuration;
+            Connection = new SqlConnection(_configuration.GetConnectionString("DbSession"));
             Connection.Open();
         }
 
