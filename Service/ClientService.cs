@@ -10,6 +10,7 @@ namespace Service
     {
         private readonly IRepositoryClient _repositoryClient;
         private readonly IMapper _mapper;
+        private readonly List<string> ResultMessage = new();
 
         public ClientService(IRepositoryClient repositoryClient, IMapper mapper)
         {
@@ -17,20 +18,24 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<Tuple<string, bool>> Create(ClientInputDto clientInputDto)
+        public async Task<Tuple<List<string>, bool>> Create(ClientInputDto clientInputDto)
         {
             var clientRequest = _mapper.Map<ClientRequestModel>(clientInputDto);
 
-
+            if (!clientRequest.Validations())
+            {
+                return new Tuple<List<string>, bool>(clientRequest.Message, false);
+            }
 
             bool create = await _repositoryClient.Create();
 
             if (!create) 
             {
-                return new Tuple<string, bool>("Failed to register customer.", false);
+                ResultMessage.Add("Failed to register customer.");
+                return new Tuple<List<string>, bool>(ResultMessage, false);
             }
-
-            return new Tuple<string, bool>("Client registered successfully!", true);
+            ResultMessage.Add("Client registered successfully!");
+            return new Tuple<List<string>, bool>(ResultMessage, true);
         }
     }
 }
