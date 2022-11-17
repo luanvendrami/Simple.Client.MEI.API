@@ -8,6 +8,6 @@ namespace Domain.Models
 {
     public abstract class MessageError
     {
-        public List<string>? Message { get; set; }
+        public List<string>? Message { get; set; } = new();
     }
 }
