@@ -6,7 +6,7 @@ namespace Simple.Client.MEI.API.Controllers
     [ApiController]
     public abstract class BaseController : ControllerBase
     {
-        protected IActionResult ResultOk(List<string> message, object? objResult = null)
+        protected IActionResult ResultOk(List<string> message = null, object? objResult = null)
             => Ok(new Result(message, objResult));
         protected IActionResult ResultBadRequest(List<string> mensagem)
             => BadRequest(new Result(mensagem));

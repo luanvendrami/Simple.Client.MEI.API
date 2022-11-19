@@ -19,6 +19,28 @@ namespace Simple.Client.MEI.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
+        [HttpGet("FetchClient")]
+        public async Task<List<IActionResult>> FetchClient([FromQuery]FetchClientInputDto fetchClientInputDto)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                var result = await _clientService.FetchClient(fetchClientInputDto);
+                if (!result.Item2)
+                {
+                    _unitOfWork.Rollback();
+                    return (List<IActionResult>)ResultBadRequest(result.Item1);
+                }
+                _unitOfWork.Commit();
+                return (List<IActionResult>)ResultOk(result.Item1, result.Item3);
+            }
+            catch
+            {
+                throw new AppException("Error to create client.");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(ClientInputDto clientInputDto)
         {
