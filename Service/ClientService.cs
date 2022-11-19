@@ -27,9 +27,9 @@ namespace Service
                 return new Tuple<List<string>, bool>(clientRequest.Message, false);
             }
 
-            bool create = await _repositoryClient.Create();
+            bool create = await _repositoryClient.Create(clientRequest);
 
-            if (!create) 
+            if (!create)
             {
                 ResultMessage.Add("Failed to register customer.");
                 return new Tuple<List<string>, bool>(ResultMessage, false);

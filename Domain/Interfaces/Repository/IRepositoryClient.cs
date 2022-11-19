@@ -1,7 +1,9 @@
-﻿namespace Domain.Interfaces.Repository
+﻿using Domain.Models.RequestModels;
+
+namespace Domain.Interfaces.Repository
 {
     public interface IRepositoryClient
     {
-        Task<bool> Create();
+        Task<bool> Create(ClientRequestModel clientRequest);
     }
 }
