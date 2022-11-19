@@ -26,6 +26,14 @@ namespace Domain.Models.RequestModels
             Validations();
         }
 
+        public ClientRequestModel(string firstName, string lastName, string cpf)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Cpf = cpf;
+            Validations();
+        } 
+
         public bool Validations()
         {
             var cpfValid = CpfValidation(Cpf);
