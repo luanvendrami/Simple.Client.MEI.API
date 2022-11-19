@@ -3,6 +3,7 @@ using Domain.Dto;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services;
 using Domain.Models.RequestModels;
+using Domain.Models.ResponseModels;
 
 namespace Service
 {
@@ -16,6 +17,26 @@ namespace Service
         {
             _repositoryClient = repositoryClient;
             _mapper = mapper;
+        }
+
+        public async Task<Tuple<List<string>, bool, List<FetchClientResponseModel>>> FetchClient(FetchClientInputDto fetchClientInputDto)
+        {
+            var clientRequest = _mapper.Map<ClientRequestModel>(fetchClientInputDto);
+            ;
+
+            if (!clientRequest.Validations())
+            {
+                return new Tuple<List<string>, bool, List<FetchClientResponseModel>>(clientRequest.Message, false, null);
+            }
+
+            List<FetchClientResponseModel> clients = await _repositoryClient.FetchCLient(clientRequest);
+
+            if (!clients.Any())
+            {
+                ResultMessage.Add("Failed to fetch customer.");
+                return new Tuple<List<string>, bool, List<FetchClientResponseModel>>(ResultMessage, false, null);
+            }
+            return new Tuple<List<string>, bool, List<FetchClientResponseModel>>(null, true, clients);
         }
 
         public async Task<Tuple<List<string>, bool>> Create(ClientInputDto clientInputDto)
