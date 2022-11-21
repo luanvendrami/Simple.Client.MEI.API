@@ -19,31 +19,33 @@ namespace Data.Repository
         public async Task<List<FetchClientResponseModel>> FetchCLient(ClientRequestModel clientRequestModel)
         {
             var query = $@"
-                            DECLARE @FirstName AS VARCHAR(15);
-                            DECLARE @LastName AS VARCHAR(50);
-                            DECLARE @Cpf AS VARCHAR(11);
-
                             SELECT 
                               FirstName, 
                               LastName, 
-                              Cpf 
+                              Cpf,
+                              BirthDate,
+                              Email,
+                              Phone
                             FROM 
                               Client 
-                            WHERE 
-                              (
-                                FirstName LIKE '@FirstName%' 
-                                OR FirstName = NULL
-                              ) 
-                              AND (
-                                LastName LIKE '@LastName%' 
-                                OR LastName = NULL
-                              ) 
-                              OR (
-                                Cpf LIKE '@Cpf%' 
-                                OR Cpf = NULL
-                              )
+                            {(clientRequestModel.FirstName == null && clientRequestModel.LastName == null && clientRequestModel.Cpf == null ? "" 
+                            : $@"
+                                WHERE 
+                                  (
+                                    FirstName LIKE '{clientRequestModel.FirstName}%' 
+                                    OR FirstName = NULL
+                                  ) 
+                                  AND (
+                                    LastName LIKE '{clientRequestModel.LastName}%' 
+                                    OR LastName = NULL
+                                  ) 
+                                  OR (
+                                    Cpf LIKE '{clientRequestModel.Cpf}%' 
+                                    OR Cpf = NULL
+                                  )
+                                ")}
                              ";
-            var result = await _session.Connection.QueryAsync<FetchClientResponseModel>(query, new { clientRequestModel.FirstName, clientRequestModel.LastName, clientRequestModel.Cpf }, _session.Transaction);
+            var result = _session.Connection.Query<FetchClientResponseModel>(query, new { clientRequestModel.FirstName, clientRequestModel.LastName, clientRequestModel.Cpf }, _session.Transaction);
             return await Task.FromResult(result.ToList());
         }
 
