@@ -14,6 +14,7 @@ namespace CrossCuting
         public MappingProfile()
         {
             CreateMap<ClientInputDto,ClientRequestModel>();
+            CreateMap<FetchClientInputDto, ClientRequestModel>();
         }
     }
 }

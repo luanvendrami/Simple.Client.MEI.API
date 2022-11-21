@@ -2,6 +2,8 @@
 using Data.Context;
 using Domain.Interfaces.Repository;
 using Domain.Models.RequestModels;
+using Domain.Models.ResponseModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Data.Repository
 {
@@ -14,11 +16,42 @@ namespace Data.Repository
             _session = session;
         }
 
+        public async Task<List<FetchClientResponseModel>> FetchCLient(ClientRequestModel clientRequestModel)
+        {
+            var query = $@"
+                            SELECT 
+                              FirstName, 
+                              LastName, 
+                              Cpf,
+                              BirthDate,
+                              Email,
+                              Phone
+                            FROM 
+                              Client 
+                            {(clientRequestModel.FirstName == null && clientRequestModel.LastName == null && clientRequestModel.Cpf == null ? "" 
+                            : $@"
+                                WHERE 
+                                  (
+                                    FirstName LIKE '{clientRequestModel.FirstName}%' 
+                                    OR FirstName = NULL
+                                  ) 
+                                  AND (
+                                    LastName LIKE '{clientRequestModel.LastName}%' 
+                                    OR LastName = NULL
+                                  ) 
+                                  OR (
+                                    Cpf LIKE '{clientRequestModel.Cpf}%' 
+                                    OR Cpf = NULL
+                                  )
+                                ")}
+                             ";
+            var result = _session.Connection.Query<FetchClientResponseModel>(query, new { clientRequestModel.FirstName, clientRequestModel.LastName, clientRequestModel.Cpf }, _session.Transaction);
+            return await Task.FromResult(result.ToList());
+        }
+
         public async Task<bool> Create(ClientRequestModel clientRequest)
         {
-            try
-            {
-                var query = $@"
+            var query = $@"
                             INSERT INTO
                                Client
                                (
@@ -33,15 +66,8 @@ namespace Data.Repository
                                (
                                   @FirstName, @LastName, @Cpf,'{clientRequest.BirthDate.ToString("yyyyMMdd")}', @Email, @Phone
                                )";
-                var result = !await _session.Connection.QueryFirstOrDefaultAsync<bool>(query, new { clientRequest.FirstName, clientRequest.LastName, clientRequest.Cpf, clientRequest.Email, clientRequest.Phone }, _session.Transaction);
-                return await Task.FromResult(result);
-            }
-            catch (Exception ex)
-            {
-                var error = ex;
-                throw;
-            }
-            
+            var result = !await _session.Connection.QueryFirstOrDefaultAsync<bool>(query, new { clientRequest.FirstName, clientRequest.LastName, clientRequest.Cpf, clientRequest.Email, clientRequest.Phone }, _session.Transaction);
+            return await Task.FromResult(result);
         }
     }
 }

@@ -23,8 +23,14 @@ namespace Domain.Models.RequestModels
             BirthDate = birthDate;
             Email = email;
             Phone = phone;
-            Validations();
         }
+
+        public ClientRequestModel(string firstName, string lastName, string cpf)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Cpf = cpf;
+        } 
 
         public bool Validations()
         {
