@@ -8,7 +8,7 @@ namespace Simple.Client.MEI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : BaseController
+    public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
         private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +21,7 @@ namespace Simple.Client.MEI.API.Controllers
 
 
         [HttpGet("FetchClient")]
-        public async Task<List<IActionResult>> FetchClient([FromQuery]FetchClientInputDto fetchClientInputDto)
+        public async Task<IActionResult> FetchClient([FromQuery]FetchClientInputDto fetchClientInputDto)
         {
             try
             {
@@ -30,14 +30,14 @@ namespace Simple.Client.MEI.API.Controllers
                 if (!result.Item2)
                 {
                     _unitOfWork.Rollback();
-                    return (List<IActionResult>)ResultBadRequest(result.Item1);
+                    return BadRequest(new { Message = result.Item1 });
                 }
                 _unitOfWork.Commit();
-                return (List<IActionResult>)ResultOk(result.Item1, result.Item3);
+                return Ok(result.Item3);
             }
             catch
             {
-                throw new AppException("Error to create client.");
+                throw new AppException("Error finding client.");
             }
         }
 
@@ -51,10 +51,10 @@ namespace Simple.Client.MEI.API.Controllers
                 if (!result.Item2)
                 {
                     _unitOfWork.Rollback();
-                    return ResultBadRequest(result.Item1);
+                    return BadRequest(result.Item1);
                 }
                 _unitOfWork.Commit();
-                return ResultOk(result.Item1);
+                return Ok(result.Item1);
             }
             catch 
             {
