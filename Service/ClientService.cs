@@ -22,12 +22,6 @@ namespace Service
         public async Task<Tuple<List<string>, bool, List<FetchClientResponseModel>>> FetchClient(FetchClientInputDto fetchClientInputDto)
         {
             var clientRequest = _mapper.Map<ClientRequestModel>(fetchClientInputDto);
-            ;
-
-            if (!clientRequest.Validations())
-            {
-                return new Tuple<List<string>, bool, List<FetchClientResponseModel>>(clientRequest.Message, false, null);
-            }
 
             List<FetchClientResponseModel> clients = await _repositoryClient.FetchCLient(clientRequest);
 
